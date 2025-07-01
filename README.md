@@ -1,75 +1,82 @@
-<div>
 <div align="center">
-  <h1>🔐 ỨNG DỤNG NHẮN TIN BẢO MẬT BẰNG DES & RSA</h1>
-  <p>
-    Đây là một ứng dụng web được phát triển bằng <strong>Python Flask</strong>, kết hợp các thuật toán mã hóa và xác thực hiện đại nhằm đảm bảo <strong>tính bảo mật, toàn vẹn và xác thực</strong> trong quá trình trao đổi tin nhắn giữa người dùng.
-  </p>
+  <h1>🔐 ỨNG DỤNG BẢO MẬT TIN NHẮN VĂN BẢN BẰNG DES & RSA</h1>
+  <p><em>Đề tài 18 – Môn: Nhập môn An toàn, Bảo mật Thông tin</em></p>
 </div>
 
 <div>
-  <h2>📌 Giới thiệu ứng dụng</h2>
+  <h2>📌 Giới thiệu</h2>
   <p>
-    Ứng dụng nhắn tin bảo mật này cho phép người dùng đăng ký tài khoản, đăng nhập và nhắn tin qua giao diện web. Tất cả tin nhắn được <strong>mã hóa bằng thuật toán DES (Chế độ CFB)</strong> trước khi gửi và <strong>giải mã tại phía nhận</strong>. Ngoài ra, để tăng cường an toàn, hệ thống sử dụng <strong>RSA 2048-bit</strong> để trao đổi khóa và xác thực người dùng.
-  </p>
-  <p>
-    Thông qua đó, hệ thống không chỉ đảm bảo rằng nội dung tin nhắn không bị lộ khi truyền tải, mà còn đảm bảo rằng người gửi và người nhận đều được xác thực, giảm thiểu nguy cơ giả mạo danh tính.
+    Đây là một ứng dụng web mô phỏng hệ thống <strong>nhắn tin bảo mật hai chiều</strong>, trong đó:
+    <ul>
+      <li>Tin nhắn được mã hóa bằng <strong>DES (CFB mode)</strong> để đảm bảo tính bí mật.</li>
+      <li>Người gửi và người nhận được xác thực qua <strong>RSA 2048-bit</strong> (kèm chữ ký số RSA + OAEP + SHA-256).</li>
+      <li>Ứng dụng sử dụng <strong>SHA-256</strong> để kiểm tra tính toàn vẹn của nội dung, phát hiện chỉnh sửa hoặc giả mạo tin nhắn.</li>
+    </ul>
   </p>
 </div>
 
 <div>
   <h2>🛠️ Công nghệ và thuật toán sử dụng</h2>
   <ul>
-    <li>🌐 Framework: <strong>Flask</strong> (Python)</li>
-    <li>📂 Giao diện: HTML, CSS, JavaScript</li>
-    <li>🔒 <strong>DES (Data Encryption Standard)</strong> – sử dụng chế độ CFB (Cipher Feedback) để mã hóa nội dung tin nhắn</li>
-    <li>🔐 <strong>RSA 2048-bit</strong> – dùng để mã hóa khóa đối xứng, xác thực người gửi (kết hợp OAEP + SHA-256)</li>
-    <li>🧾 <strong>SHA-256</strong> – để kiểm tra toàn vẹn nội dung tin nhắn</li>
+    <li><strong>Python Flask</strong> – Backend xử lý server</li>
+    <li><strong>HTML/CSS/JS</strong> – Giao diện người dùng</li>
+    <li><strong>DES (CFB)</strong> – Mã hóa tin nhắn văn bản</li>
+    <li><strong>RSA 2048-bit</strong> – Ký số và trao đổi khóa bảo mật</li>
+    <li><strong>SHA-256</strong> – Kiểm tra toàn vẹn tin nhắn</li>
   </ul>
+</div>
+
+<div>
+  <h2>🔁 Luồng xử lý hệ thống</h2>
+  <ol>
+    <li><strong>Handshake</strong>: Hai người dùng trao đổi khóa RSA qua kết nối P2P</li>
+    <li><strong>Xác thực & Trao khóa:</strong> Người gửi ký ID bằng RSA, tạo khóa DES và gửi kèm chữ ký</li>
+    <li><strong>Mã hóa & gửi tin nhắn:</strong> Mã hóa tin bằng DES → Tạo hash → Ký số → Gửi đi</li>
+    <li><strong>Người nhận:</strong> Giải RSA → Kiểm tra hash → Xác thực chữ ký → Giải DES</li>
+  </ol>
 </div>
 
 <div>
   <h2>✨ Các chức năng nổi bật</h2>
   <ul>
-    <li>🔐 <strong>Đăng ký người dùng</strong> với sinh khóa RSA cá nhân</li>
-    <li>🔑 <strong>Đăng nhập an toàn</strong> với xác thực người dùng</li>
-    <li>💬 <strong>Gửi và nhận tin nhắn</strong> đã được mã hóa toàn bộ bằng DES</li>
-    <li>🔁 <strong>Chia sẻ khóa phiên</strong> bằng RSA</li>
-    <li>📜 <strong>Xác minh chữ ký</strong> số và kiểm tra toàn vẹn tin nhắn</li>
+    <li>🔐 Đăng ký & đăng nhập người dùng</li>
+    <li>🔑 Tạo và lưu khóa RSA cá nhân</li>
+    <li>💬 Nhắn tin 2 chiều có mã hóa</li>
+    <li>🧾 Tự động ký số và kiểm tra hash tin nhắn</li>
+    <li>🔍 Phản hồi lỗi nếu phát hiện chỉnh sửa (hash/ chữ ký sai)</li>
   </ul>
 </div>
 
 <div>
-  <h2>🖼️ Hình ảnh minh họa</h2>
+  <h2>🖼️ Giao diện minh họa</h2>
 
-  <h3>📥 Trang Đăng Ký</h3>
-  <img src="assets/register.png" alt="Giao diện đăng ký" width="600">
+  <h3>📥 Đăng ký tài khoản</h3>
+  <img src="assets/register.png" alt="Đăng ký" width="600">
 
-  <h3>🔐 Trang Đăng Nhập</h3>
-  <img src="assets/login.png" alt="Giao diện đăng nhập" width="600">
+  <h3>🔐 Đăng nhập</h3>
+  <img src="assets/login.png" alt="Đăng nhập" width="600">
 
-  <h3>💬 Giao Diện Nhắn Tin Bảo Mật</h3>
-  <img src="assets/chat.png" alt="Giao diện nhắn tin bảo mật" width="600">
+  <h3>💬 Nhắn tin bảo mật</h3>
+  <img src="assets/chat.png" alt="Nhắn tin" width="600">
 </div>
 
 <div>
-  <h2>🚀 Cách sử dụng</h2>
+  <h2>🚀 Hướng dẫn sử dụng</h2>
   <ol>
-    <li>Clone repo về máy: <code>git clone https://github.com/your-username/ten-repo.git</code></li>
+    <li>Clone repo: <code>git clone https://github.com/your-username/BaiTapLonATBMTT.git</code></li>
     <li>Cài thư viện: <code>pip install -r requirements.txt</code></li>
-    <li>Chạy ứng dụng: <code>python app.py</code></li>
-    <li>Truy cập: <code>http://localhost:5000</code></li>
+    <li>Chạy server: <code>python app.py</code></li>
+    <li>Mở trình duyệt và truy cập: <code>http://localhost:5000</code></li>
   </ol>
 </div>
 
 <div>
-  <h2>🧠 Ý nghĩa bảo mật</h2>
+  <h2>🎯 Mục tiêu đề tài</h2>
   <p>
-    Ứng dụng mô phỏng nguyên lý bảo mật tin nhắn như trong thực tế:
-    <ul>
-      <li>📥 Dữ liệu được <strong>mã hóa trước khi gửi</strong>, giúp bảo vệ khỏi rò rỉ thông tin</li>
-      <li>🧾 <strong>Chữ ký số RSA</strong> đảm bảo nguồn gốc tin nhắn</li>
-      <li>🧮 <strong>Kiểm tra băm SHA-256</strong> bảo vệ toàn vẹn nội dung</li>
-    </ul>
+    Xây dựng một hệ thống nhắn tin mô phỏng quy trình mã hóa – xác thực – kiểm tra toàn vẹn,
+    giúp sinh viên nắm vững các kiến thức thực tiễn về bảo mật thông tin, đồng thời vận dụng thuật toán mã hóa
+    đối xứng (DES) và bất đối xứng (RSA) trong môi trường thực tế.
   </p>
 </div>
-</div>
+
+
