@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Chat - Ứng dụng nhắn tin bảo mật</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="header-content">
+                <h1><i class="fas fa-shield-alt"></i> Secure Chat</h1>
+                <div class="user-info">
+                    <span id="username-display">Chưa đăng nhập</span>
+                    <button id="logout-btn" class="btn-secondary" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Login/Register Panel -->
+            <div id="auth-panel" class="auth-panel">
+                <div class="auth-card">
+                    <h2>Đăng nhập vào Secure Chat</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="username">Tên người dùng:</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu:</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                        </button>
+                    </form>
+                    <p class="auth-switch">
+                        Chưa có tài khoản? 
+                        <a href="#" id="show-register">Đăng ký ngay</a>
+                    </p>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-card" class="auth-card" style="display: none;">
+                    <h2>Đăng ký tài khoản mới</h2>
+                    <form id="register-form">
+                        <div class="form-group">
+                            <label for="reg-username">Tên người dùng:</label>
+                            <input type="text" id="reg-username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Mật khẩu:</label>
+                            <input type="password" id="reg-password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-user-plus"></i> Đăng ký
+                        </button>
+                    </form>
+                    <p class="auth-switch">
+                        Đã có tài khoản? 
+                        <a href="#" id="show-login">Đăng nhập</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div id="chat-interface" class="chat-interface" style="display: none;">
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <div class="sidebar-header">
+                        <h3><i class="fas fa-users"></i> Người dùng online</h3>
+                        <button id="refresh-users" class="btn-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div class="users-list" id="users-list">
+                        <div class="loading">Đang tải...</div>
+                    </div>
+                </aside>
+
+                <!-- Chat Area -->
+                <div class="chat-area">
+                    <div class="chat-header-room">
+                        <div class="room-info">
+                            <h3 id="room-title">Chọn người để bắt đầu chat</h3>
+                            <div class="security-status" id="security-status">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Chưa kết nối</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="messages-container" id="messages-container">
+                        <div class="welcome-message">
+                            <i class="fas fa-comments"></i>
+                            <h3>Chào mừng đến với Secure Chat!</h3>
+                            <p>Chọn một người dùng từ danh sách bên trái để bắt đầu cuộc trò chuyện bảo mật.</p>
+                            <div class="security-features">
+                                <div class="feature">
+                                    <i class="fas fa-lock"></i>
+                                    <span>Mã hóa DES CFB</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-key"></i>
+                                    <span>Xác thực RSA 2048-bit</span>
+                                </div>
+                                <div class="feature">
+                                    <i class="fas fa-shield-check"></i>
+                                    <span>Kiểm tra toàn vẹn SHA-256</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message-input-area" id="message-input-area" style="display: none;">
+                        <form id="message-form">
+                            <div class="input-group">
+                                <input type="text" id="message-input" placeholder="Nhập tin nhắn..." autocomplete="off">
+                                <button type="submit" class="btn-send">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Connection Status -->
+        <div class="connection-status" id="connection-status">
+            <i class="fas fa-wifi"></i>
+            <span>Đang kết nối...</span>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notifications" class="notifications"></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Đang xử lý...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    <script src="/static/js/chat.js"></script>
+</body>
+</html>
