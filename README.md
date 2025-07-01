@@ -50,14 +50,12 @@
 <div>
   <h2>🖼️ Giao diện minh họa</h2>
 
-  <h3>📥 Đăng ký tài khoản</h3>
-  <img src="assets/register.png" alt="Đăng ký" width="600">
 
-  <h3>🔐 Đăng nhập</h3>
-  <img src="assets/login.png" alt="Đăng nhập" width="600">
+  <h3>🔐 Đăng nhập / Đăng ký tài khoản </h3>
+  <img src="https://i.imgur.com/f2i1wPC.png" alt="Đăng nhập" width="600">
 
   <h3>💬 Nhắn tin bảo mật</h3>
-  <img src="assets/chat.png" alt="Nhắn tin" width="600">
+  <img src="https://i.imgur.com/Z51SP17.png" alt="Nhắn tin" width="600">
 </div>
 
 <div>
